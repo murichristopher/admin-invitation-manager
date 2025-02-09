@@ -23,6 +23,18 @@
   </head>
 
   <body>
+    <% if administrator_signed_in? %>
+      <header class="bg-gray-800 text-white p-4">
+        <div class="container mx-auto flex justify-between items-center">
+          <h1 class="text-xl font-bold">Admin Invitation Manager</h1>
+          <%= button_to 'Sign Out', destroy_administrator_session_path,
+    method: :delete,
+    data: { confirm: 'Are you sure you want to sign out?' },
+    class: "rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white block font-medium" %>
+        </div>
+      </header>
+    <% end %>
+
     <main class="container mx-auto mt-28 px-5 flex">
       <%= yield %>
     </main>
