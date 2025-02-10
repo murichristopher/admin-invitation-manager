@@ -5,7 +5,6 @@
     <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-md inline-block" id="notice"><%= notice %></p>
   <% end %>
 
-  <!-- Filter Form -->
   <%= form_with url: company_invitations_path(@company), method: :get, local: true, class: "mb-4" do |f| %>
     <div class="flex flex-wrap gap-4">
       <div>
@@ -30,7 +29,6 @@
     </div>
   <% end %>
 
-  <!-- Invitation Listing -->
   <div id="invitations" class="min-w-full">
     <% if @invitations.any? %>
       <% @invitations.each do |invitation| %>

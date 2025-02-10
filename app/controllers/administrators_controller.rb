@@ -1,25 +1,20 @@
 class AdministratorsController < ApplicationController
   before_action :set_administrator, only: %i[ show edit update destroy ]
 
-  # GET /administrators or /administrators.json
   def index
     @administrators = Administrator.all
   end
 
-  # GET /administrators/1 or /administrators/1.json
   def show
   end
 
-  # GET /administrators/new
   def new
     @administrator = Administrator.new
   end
 
-  # GET /administrators/1/edit
   def edit
   end
 
-  # POST /administrators or /administrators.json
   def create
     @administrator = Administrator.new(administrator_params)
 
@@ -34,7 +29,6 @@ class AdministratorsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /administrators/1 or /administrators/1.json
   def update
     respond_to do |format|
       if @administrator.update(administrator_params)
@@ -47,7 +41,6 @@ class AdministratorsController < ApplicationController
     end
   end
 
-  # DELETE /administrators/1 or /administrators/1.json
   def destroy
     @administrator.destroy!
 
@@ -59,13 +52,10 @@ class AdministratorsController < ApplicationController
 
   private
 
-    # Use callbacks to share common setup or constraints between actions.
     def set_administrator
       @administrator = Administrator.find(params[:id])
     end
 
-    # Only allow a list of trusted parameters through.
-    # Note: Use :password and :password_confirmation so Devise can process them correctly.
     def administrator_params
       params.require(:administrator).permit(:name, :email, :password, :password_confirmation)
     end
