@@ -2,26 +2,44 @@ class InvitationsController < ApplicationController
   before_action :set_company, only: [:index, :new, :create]
   before_action :set_invitation, only: [:show, :edit, :update, :destroy]
 
-  # GET /invitations or /invitations.json
   def index
     @invitations = Invitation.all
+
+    if params[:name].present?
+      @invitations = @invitations.joins(:user)
+                                .where("users.name ILIKE ? OR users.email ILIKE ?", "%#{params[:name]}%", "%#{params[:name]}%")
+    end
+
+    if params[:company_id].present?
+      @invitations = @invitations.where(company_id: params[:company_id])
+    end
+
+    if params[:start_date].present? && params[:end_date].present?
+      begin
+        start_date = Date.parse(params[:start_date])
+        end_date = Date.parse(params[:end_date])
+        @invitations = @invitations.where(created_at: start_date.beginning_of_day..end_date.end_of_day)
+      rescue ArgumentError
+        flash.now[:alert] = "Datas inválidas."
+      end
+    end
+
+    @invitations = @invitations.where(active: true)
+
+    @invitations = @invitations.order(created_at: :desc)
   end
 
-  # GET /invitations/1 or /invitations/1.json
   def show
   end
 
-  # GET /invitations/new
   def new
     @company = Company.find(params[:company_id])
     @invitation = @company.invitations.build
   end
 
-  # GET /invitations/1/edit
   def edit
   end
 
-  # POST /invitations or /invitations.json
   def create
     @invitation = Invitation.new(invitation_params)
 
@@ -36,7 +54,6 @@ class InvitationsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /invitations/1 or /invitations/1.json
   def update
     respond_to do |format|
       if @invitation.update(invitation_params)
@@ -49,7 +66,6 @@ class InvitationsController < ApplicationController
     end
   end
 
-  # DELETE /invitations/1 or /invitations/1.json
   def destroy
     @invitation.destroy!
 

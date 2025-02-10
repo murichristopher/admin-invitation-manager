@@ -17,7 +17,7 @@
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
 
-    <%# Includes all stylesheet files in app/assets/stylesheets %>  
+    <%# Includes all stylesheet files in app/assets/stylesheets %>
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
@@ -26,12 +26,24 @@
     <% if administrator_signed_in? %>
       <header class="bg-gray-800 text-white p-4">
         <div class="container mx-auto flex justify-between items-center">
+          <!-- Site Title -->
           <h1 class="text-xl font-bold">Admin Invitation Manager</h1>
-          <%= button_to 'Sign Out', destroy_administrator_session_path,
-              method: :delete,
-              data: { confirm: 'Are you sure you want to sign out?' },
-              class: "rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white block font-medium"
-          %>
+
+          <!-- Navigation Menu -->
+          <nav class="flex space-x-6">
+            <%= link_to "Companies", companies_path, class: "hover:underline" %>
+            <%= link_to "Administrators", administrators_path, class: "hover:underline" %>
+            <%= link_to "Users", users_path, class: "hover:underline" %>
+            <%# Note: Invitations are nested under Companies, so no top-level link is provided by default %>
+          </nav>
+
+          <!-- Sign Out Button -->
+          <div>
+            <%= button_to "Sign Out", destroy_administrator_session_path,
+                  method: :delete,
+                  data: { confirm: "Are you sure you want to sign out?" },
+                  class: "rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-medium" %>
+          </div>
         </div>
       </header>
     <% end %>
