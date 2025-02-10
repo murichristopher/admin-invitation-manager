@@ -58,13 +58,15 @@ class AdministratorsController < ApplicationController
   end
 
   private
+
     # Use callbacks to share common setup or constraints between actions.
     def set_administrator
-      @administrator = Administrator.find(params.expect(:id))
+      @administrator = Administrator.find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.
+    # Note: Use :password and :password_confirmation so Devise can process them correctly.
     def administrator_params
-      params.expect(administrator: [ :name, :email, :password_digest ])
+      params.require(:administrator).permit(:name, :email, :password, :password_confirmation)
     end
 end
