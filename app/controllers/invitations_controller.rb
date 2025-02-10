@@ -1,5 +1,6 @@
 class InvitationsController < ApplicationController
-  before_action :set_invitation, only: %i[ show edit update destroy ]
+  before_action :set_company, only: [:index, :new, :create]
+  before_action :set_invitation, only: [:show, :edit, :update, :destroy]
 
   # GET /invitations or /invitations.json
   def index
@@ -12,7 +13,8 @@ class InvitationsController < ApplicationController
 
   # GET /invitations/new
   def new
-    @invitation = Invitation.new
+    @company = Company.find(params[:company_id])
+    @invitation = @company.invitations.build
   end
 
   # GET /invitations/1/edit
@@ -58,13 +60,16 @@ class InvitationsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_invitation
-      @invitation = Invitation.find(params.expect(:id))
-    end
 
-    # Only allow a list of trusted parameters through.
-    def invitation_params
-      params.expect(invitation: [ :invitee_name, :invitee_email, :active, :company_id ])
-    end
+  def set_company
+    @company = Company.find(params[:company_id])
+  end
+
+  def set_invitation
+    @invitation = Invitation.find(params[:id])
+  end
+
+  def invitation_params
+    params.require(:invitation).permit(:invitee_name, :invitee_email, :active, :company_id, :user_id)
+  end
 end

@@ -14,8 +14,9 @@
     <% if @companies.any? %>
       <% @companies.each do |company| %>
         <%= render company %>
-        <p>
+        <p class="mt-2">
           <%= link_to "Show this company", company, class: "ml-2 rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
+          <%= link_to "View Invitations", company_invitations_path(company), class: "ml-2 rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
         </p>
       <% end %>
     <% else %>

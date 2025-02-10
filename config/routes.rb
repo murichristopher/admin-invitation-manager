@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   devise_for :administrators
-  resources :invitations
+  resources :companies do
+    resources :invitations, shallow: true
+  end
   resources :companies
   resources :administrators
   resources :users

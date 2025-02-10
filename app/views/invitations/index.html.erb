@@ -7,7 +7,7 @@
 
   <div class="flex justify-between items-center">
     <h1 class="font-bold text-4xl">Invitations</h1>
-    <%= link_to "New invitation", new_invitation_path, class: "rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white block font-medium" %>
+    <%= link_to "New invitation", new_company_invitation_path(@company), class: "rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white block font-medium" %>
   </div>
 
   <div id="invitations" class="min-w-full">
@@ -21,5 +21,9 @@
     <% else %>
       <p class="text-center my-10">No invitations found.</p>
     <% end %>
+  </div>
+
+  <div class="mt-8">
+    <%= link_to "Back to Company", company_path(@company), class: "ml-2 rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
   </div>
 </div>

@@ -1,8 +1,7 @@
-<%= form_with(model: invitation, class: "contents") do |form| %>
+<%= form_with(model: [@company, invitation], class: "contents") do |form| %>
   <% if invitation.errors.any? %>
     <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-md mt-3">
       <h2><%= pluralize(invitation.errors.count, "error") %> prohibited this invitation from being saved:</h2>
-
       <ul class="list-disc ml-6">
         <% invitation.errors.each do |error| %>
           <li><%= error.full_message %></li>
@@ -12,13 +11,8 @@
   <% end %>
 
   <div class="my-5">
-    <%= form.label :invitee_name %>
-    <%= form.text_field :invitee_name, class: ["block shadow-sm rounded-md border outline-hidden px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": invitation.errors[:invitee_name].none?, "border-red-400 focus:outline-red-600": invitation.errors[:invitee_name].any?}] %>
-  </div>
-
-  <div class="my-5">
-    <%= form.label :invitee_email %>
-    <%= form.text_field :invitee_email, class: ["block shadow-sm rounded-md border outline-hidden px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": invitation.errors[:invitee_email].none?, "border-red-400 focus:outline-red-600": invitation.errors[:invitee_email].any?}] %>
+    <%= form.label :user_id, "User" %>
+    <%= form.collection_select :user_id, User.all, :id, :name, prompt: "Select a User", class: "block shadow-sm rounded-md border outline-hidden px-3 py-2 mt-2 w-full" %>
   </div>
 
   <div class="my-5">
@@ -26,12 +20,15 @@
     <%= form.checkbox :active, class: ["block shadow-sm rounded-md border outline-hidden mt-2 h-5 w-5", {"border-gray-400 focus:outline-blue-600": invitation.errors[:active].none?, "border-red-400 focus:outline-red-600": invitation.errors[:active].any?}] %>
   </div>
 
-  <div class="my-5">
-    <%= form.label :company_id %>
-    <%= form.text_field :company_id, class: ["block shadow-sm rounded-md border outline-hidden px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": invitation.errors[:company_id].none?, "border-red-400 focus:outline-red-600": invitation.errors[:company_id].any?}] %>
-  </div>
+  <% if invitation.new_record? %>
+    <%= form.hidden_field :company_id, value: @company.id %>
+  <% end %>
 
   <div class="inline">
     <%= form.submit class: "rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white inline-block font-medium cursor-pointer" %>
   </div>
 <% end %>
+
+
+
+
